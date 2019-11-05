@@ -14,6 +14,12 @@ Experimental Object Oriented Testing Framework for Java
 [![PDD status](http://www.0pdd.com/svg?name=g4s8/oot)](http://www.0pdd.com/p?name=g4s8/oot)
 [![License](https://img.shields.io/github/license/g4s8/oot.svg?style=flat-square)](https://github.com/g4s8/oot/blob/master/LICENSE)
 
+## Concepts
+
+ 1. Use single entry points for all tests
+ 2. Use composition to construct test cases
+ 3. Control test runs behavior in the code
+ 4. Write test-cases objects instead of classes with test functions
 
 ## Usage
 
@@ -46,12 +52,18 @@ Test cases:
 ## Examples
 
 ```java
+/**
+ * Object to test
+ */
 class Calc {
     int sum(int x, int y) {
         return x + y;
     }
 }
 
+/**
+ * Test case object.
+ */
 class CalcTest extends TestRun.Wrap {
     public CalcTest(final Calc calc) {
         super(
@@ -69,17 +81,25 @@ class CalcTest extends TestRun.Wrap {
     }
 }
 
+/**
+ * All tests entrypoint.
+ */
 class UnitTests {
     @Test
     public void test() {
         new TestChain(
+            // run calc test first
             new CalcTest(new Calc()),
+            // then other test case
             new OtherTest(),
+            // run conditional test only if CI_BUILD property is present
             new TestIf(
-              () -> System.getProperty("CI_BUILD"),
+              () -> System.getProperty("CI_BUILD") != null,
               new ConditionalTest()
             ),
+            // then run one more test case
             new AnotherTest()
+        // start them all
         ).run();
     }
 }
