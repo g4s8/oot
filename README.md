@@ -51,6 +51,9 @@ Test cases:
 
 ## Examples
 
+See `./src/test/java` dir of [matchers-json](https://github.com/g4s8/matchers-json) project for real
+examples.
+
 ```java
 /**
  * Object to test
