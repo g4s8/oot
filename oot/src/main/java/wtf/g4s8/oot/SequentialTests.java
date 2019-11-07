@@ -24,38 +24,49 @@
  */
 package wtf.g4s8.oot;
 
-import java.util.function.Supplier;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 /**
- * Conditional test.
+ * Chain of test runs.
  * @since 1.0
  */
-public final class TestIf implements TestRun {
+public final class SequentialTests implements TestCase {
 
     /**
-     * Condition.
+     * Test runs.
      */
-    private final Supplier<Boolean> cond;
+    private final Iterable<TestCase> tests;
 
     /**
-     * Origin test.
+     * From test runs.
+     * @param tests Test runs
      */
-    private final TestRun origin;
+    public SequentialTests(final TestCase... tests) {
+        this(Arrays.asList(tests));
+    }
 
     /**
-     * Ctor.
-     * @param cond Condition to enable the test
-     * @param origin Test to run if condition ok
+     * Primary ctor.
+     * @param tests Test runs
      */
-    public TestIf(final Supplier<Boolean> cond, final TestRun origin) {
-        this.cond = cond;
-        this.origin = origin;
+    public SequentialTests(final Iterable<TestCase> tests) {
+        this.tests = tests;
     }
 
     @Override
-    public void run() throws AssertionError {
-        if (this.cond.get()) {
-            this.origin.run();
+    public String name() {
+        return StreamSupport.stream(this.tests.spliterator(), false)
+            .map(TestCase::name)
+            .collect(Collectors.joining(","));
+    }
+
+    @Override
+    public void run(final TestReport report) throws IOException {
+        for (final TestCase test : this.tests) {
+            test.run(report);
         }
     }
 }

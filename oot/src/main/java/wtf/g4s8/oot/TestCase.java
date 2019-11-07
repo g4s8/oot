@@ -24,15 +24,13 @@
  */
 package wtf.g4s8.oot;
 
-import org.hamcrest.Matcher;
+import java.io.IOException;
 
 /**
- * Test case.
- *
- * @param <T> Target type
+ * Test run.
  * @since 1.0
  */
-public interface TestCase<T> {
+public interface TestCase {
 
     /**
      * Test name.
@@ -41,14 +39,39 @@ public interface TestCase<T> {
     String name();
 
     /**
-     * Test matcher.
-     * @return Hamcrest matcher
+     * Run test.
+     * @param report Test report
+     * @throws IOException On report error
      */
-    Matcher<T> matcher();
+    void run(TestReport report) throws IOException;
 
     /**
-     * Testing target.
-     * @return Target for testing
+     * Default decorator.
+     * @since 1.0
      */
-    T target();
+    abstract class Wrap implements TestCase {
+
+        /**
+         * Origin test.
+         */
+        private final TestCase test;
+
+        /**
+         * Ctor.
+         * @param test Origin test
+         */
+        protected Wrap(final TestCase test) {
+            this.test = test;
+        }
+
+        @Override
+        public String name() {
+            return this.test.name();
+        }
+
+        @Override
+        public final void run(final TestReport report) throws IOException {
+            this.test.run(report);
+        }
+    }
 }

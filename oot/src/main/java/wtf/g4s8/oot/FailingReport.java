@@ -24,40 +24,50 @@
  */
 package wtf.g4s8.oot;
 
+import java.io.Closeable;
+import java.io.IOException;
+import java.util.concurrent.atomic.AtomicBoolean;
+
 /**
- * Test run.
+ * Test report which throw exception on failure.
  * @since 1.0
  */
-public interface TestRun {
+public final class FailingReport implements TestReport, Closeable {
 
     /**
-     * Run test.
-     * @throws AssertionError On test error
+     * Any test failed.
      */
-    void run() throws AssertionError;
+    private final AtomicBoolean err;
 
     /**
-     * Default decorator.
-     * @since 1.0
+     * Origin report.
      */
-    abstract class Wrap implements TestRun {
+    private final TestReport report;
 
-        /**
-         * Origin test.
-         */
-        private final TestRun test;
+    /**
+     * Ctor.
+     * @param report Report
+     */
+    public FailingReport(final TestReport report) {
+        this.err = new AtomicBoolean();
+        this.report = report;
+    }
 
-        /**
-         * Ctor.
-         * @param test Origin test
-         */
-        protected Wrap(final TestRun test) {
-            this.test = test;
-        }
+    @Override
+    public void success(final TestCase test) throws IOException {
+        this.report.success(test);
+    }
 
-        @Override
-        public final void run() throws AssertionError {
-            this.test.run();
+    @Override
+    public void failure(final TestCase test, final String error) throws IOException {
+        this.err.set(true);
+        this.report.failure(test, error);
+    }
+
+    @Override
+    public void close() {
+        if (this.err.get()) {
+            throw new AssertionError("One or more tests failed");
         }
     }
 }

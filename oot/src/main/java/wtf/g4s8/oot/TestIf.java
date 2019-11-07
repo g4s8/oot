@@ -24,65 +24,44 @@
  */
 package wtf.g4s8.oot;
 
+import java.io.IOException;
 import java.util.function.Supplier;
-import org.hamcrest.Matcher;
 
 /**
- * Simple test case.
- * @param <T> Target type
+ * Conditional test.
  * @since 1.0
  */
-public final class SimpleTest<T> implements TestCase<T> {
+public final class TestIf implements TestCase {
 
     /**
-     * Matcher.
+     * Condition.
      */
-    private final Matcher<T> mtchr;
+    private final Supplier<Boolean> cond;
 
     /**
-     * Name.
+     * Origin test.
      */
-    private final String nme;
-
-    /**
-     * Target.
-     */
-    private final Supplier<T> trgt;
+    private final TestCase origin;
 
     /**
      * Ctor.
-     * @param name Name
-     * @param matcher Matcher
-     * @param target Target
+     * @param cond Condition to enable the test
+     * @param origin Test to run if condition ok
      */
-    public SimpleTest(final String name, final Matcher<T> matcher, final T target) {
-        this(name, matcher, () -> target);
-    }
-
-    /**
-     * Ctor.
-     * @param name Name
-     * @param matcher Matcher
-     * @param target Target
-     */
-    public SimpleTest(final String name, final Matcher<T> matcher, final Supplier<T> target) {
-        this.mtchr = matcher;
-        this.nme = name;
-        this.trgt = target;
+    public TestIf(final Supplier<Boolean> cond, final TestCase origin) {
+        this.cond = cond;
+        this.origin = origin;
     }
 
     @Override
     public String name() {
-        return this.nme;
+        return this.origin.name();
     }
 
     @Override
-    public Matcher<T> matcher() {
-        return this.mtchr;
-    }
-
-    @Override
-    public T target() {
-        return this.trgt.get();
+    public void run(final TestReport report) throws IOException {
+        if (this.cond.get()) {
+            this.origin.run(report);
+        }
     }
 }

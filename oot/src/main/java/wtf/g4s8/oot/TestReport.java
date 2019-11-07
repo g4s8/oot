@@ -24,35 +24,26 @@
  */
 package wtf.g4s8.oot;
 
-import org.hamcrest.MatcherAssert;
+import java.io.IOException;
 
 /**
- * Simple test run.
- * @param <T> Test case target type
+ * Test report.
  * @since 1.0
  */
-public final class SimpleRun<T> implements TestRun {
+public interface TestReport {
 
     /**
-     * Test case.
+     * Report test success.
+     * @param test Test case
+     * @throws IOException On failure
      */
-    private final TestCase<T> tcase;
+    void success(TestCase test) throws IOException;
 
     /**
-     * Ctor.
-     * @param tcase Test case
+     * Report failure.
+     * @param test Test case
+     * @param error Error message
+     * @throws IOException On failure
      */
-    public SimpleRun(final TestCase<T> tcase) {
-        this.tcase = tcase;
-    }
-
-    @Override
-    @SuppressWarnings("PMD.SystemPrintln")
-    public void run() throws AssertionError {
-        final String name = this.tcase.name();
-        MatcherAssert.assertThat(
-            name, this.tcase.target(), this.tcase.matcher()
-        );
-        System.out.printf("Test '%s' passed\n", name);
-    }
+    void failure(TestCase test, String error) throws IOException;
 }

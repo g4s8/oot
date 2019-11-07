@@ -24,53 +24,41 @@
  */
 package wtf.g4s8.oot;
 
-import java.util.Arrays;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.io.PrintStream;
 
 /**
- * Chain of test runs.
+ * Console stdout test report.
  * @since 1.0
  */
-public final class TestChain implements TestRun {
+public final class ConsoleReport implements TestReport {
 
     /**
-     * Test runs.
+     * Output.
      */
-    private final Iterable<TestRun> tests;
+    private final PrintStream out;
 
     /**
-     * From test cases.
-     * @param cases Test cases
+     * Ctor.
      */
-    public TestChain(final TestCase<?>... cases) {
-        this(
-            Stream.of(cases).map((Function<TestCase<?>, SimpleRun<?>>) SimpleRun::new)
-                .collect(Collectors.toList())
-        );
+    public ConsoleReport() {
+        this(System.out);
     }
 
     /**
-     * From test runs.
-     * @param tests Test runs
+     * Ctor.
+     * @param out Output
      */
-    public TestChain(final TestRun... tests) {
-        this(Arrays.asList(tests));
-    }
-
-    /**
-     * Primary ctor.
-     * @param tests Test runs
-     */
-    public TestChain(final Iterable<TestRun> tests) {
-        this.tests = tests;
+    public ConsoleReport(final PrintStream out) {
+        this.out = out;
     }
 
     @Override
-    public void run() throws AssertionError {
-        for (final TestRun test : this.tests) {
-            test.run();
-        }
+    public void success(final TestCase test) {
+        this.out.printf("[Test] %s - OK\n", test.name());
+    }
+
+    @Override
+    public void failure(final TestCase test, final String error) {
+        this.out.printf("[Test] %s - Failed: %s\n", test.name(), error);
     }
 }
