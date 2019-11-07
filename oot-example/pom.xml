@@ -29,7 +29,6 @@
             <goals>
               <goal>test</goal>
             </goals>
-            <phase>test</phase>
           </execution>
         </executions>
       </plugin>

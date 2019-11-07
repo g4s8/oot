@@ -23,12 +23,85 @@ Experimental Object Oriented Testing Framework for Java
 
 ## Usage
 
-Add dependency to your `pom.xml`:
 ```
 @todo #1:30min Publish artifact to maven central.
  Then update the readme with dependency references
  and install instructions. Automate publish with CI.
 ```
+
+Disable `maven-surefire-plugin` by adding `skipTests` property to configuration,
+add `oot-maven-plugin` and `oot` library dependency to `pom.xml`:
+```xml
+<project>
+  <dependencies>
+    <dependency>
+      <groupId>wtf.g4s8.oot</groupId>
+      <artifactId>oot</artifactId>
+      <!-- insert correct version here -->
+      <version>1.0-SNAPSHOT</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <skipTests>true</skipTests>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>wtf.g4s8.oot</groupId>
+        <artifactId>oot-maven-plugin</artifactId>
+        <!-- insert correct version here -->
+        <version>1.0-SNAPSHOT</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>test</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>
+```
+
+Maven Plugin will be executed on `test` phase, supported properties are:
+ - `skipTests` - disable tests (optional, default `false`)
+
+It will search for public class with `public` `static` `void` `test`
+method, same as `java` cli searches for `main` method.
+
+*Hint: check `./oot-example` project for real example Maven project.*
+
+To write first test, create public test class with method `test`:
+```java
+public final MainTest {
+  public static void test() {
+    // run tests here
+  }
+}
+```
+
+`oot` library use `TestReport` implementations to report test results and
+fail `test` phase on test failure. And `TestCase` implementation to wrap test
+logic:
+```java
+public final MainTest {
+  public static void test() {
+    try (FailingReport report = new FailingReport(new ConsoleReport())) {
+      new SimpleTest<>("basic test", () -> 1 + 1, Matchers.is(2));
+    }
+  }
+}
+```
+In this example:
+ - `FailingReport` will fail `test` phase after all tests if any test fails
+ - `ConsoleReport` will print all test results to stdout
+ - `SimpleTest` - generic object to apply [Hamcrest matcher](http://hamcrest.org/JavaHamcrest/)
+ to target object
 
 Create Junit test class, run any implementation of `TestRun` in the
 test method:
@@ -39,71 +112,46 @@ public void mainTest() {
     new SimpleTest<>("true is not false", Matchers.is(true), !false)
   ).run();
 }
-```
-Implementations:
- - `TestChain` - can aggregate multiple `TestRun`s to run it sequentially
- - `SimpleRun` - wraps generic `TestCase`
- - `TestIf` - conditional test which skips test case if condition didn't pass
 
-Test cases:
- - `SimpleTest` - simple `TestCase` implementation with name, lazy target loader and Hamcrest matcher
-
-
-## Examples
-
-See `./src/test/java` dir of [matchers-json](https://github.com/g4s8/matchers-json) project for real
-examples.
-
+To run multiple tests sequentially use:
 ```java
-/**
- * Object to test
- */
-class Calc {
-    int sum(int x, int y) {
-        return x + y;
-    }
-}
+new SequentialTests(
+  new FooTest(),
+  new BarTest(),
+  new BazTest()
+)
+```
 
-/**
- * Test case object.
- */
-class CalcTest extends TestRun.Wrap {
-    public CalcTest(final Calc calc) {
-        super(
-            new TestChain(
-                new SimpleTest<Integer>(
-                    "sum of zeros is zero",
-                    Matchers.is(0), () -> calc.sum(0, 0)
-                ),
-                new SimpleTest<Integer>(
-                    "sum of ones is two",
-                    Matchers.is(2), () -> calc.sum(1, 1)
-                )
-            )
-        );
-    }
-}
+To run it parallelly use:
+```java
+new ParallelTests(
+  new FooTest(),
+  new BarTest(),
+  new BazTest()
+)
+```
 
-/**
- * All tests entrypoint.
- */
-class UnitTests {
-    @Test
-    public void test() {
-        new TestChain(
-            // run calc test first
-            new CalcTest(new Calc()),
-            // then other test case
-            new OtherTest(),
-            // run conditional test only if CI_BUILD property is present
-            new TestIf(
-              () -> System.getProperty("CI_BUILD") != null,
-              new ConditionalTest()
-            ),
-            // then run one more test case
-            new AnotherTest()
-        // start them all
-        ).run();
+## Decorating
+
+`TestCase` has default decorator `TestCase.Wrap`.
+It can be used to move all tests composition into
+main test constructor:
+```java
+public final class MainTest extends TestCase.Wrap {
+  private MainTest() {
+    super(
+      new ParallelTests(
+        new TestOne(),
+        new TestTwo(),
+        new TestThree()
+      )
+    );
+  }
+
+  public static void test() throws IOException {
+    try (FailingReport report = new FailingReport(new ConsoleReport())) {
+      new MainTest().run(report);
     }
+  }
 }
 ```
