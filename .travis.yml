@@ -35,6 +35,8 @@ jdk:
   - openjdk11
   - openjdk13
 after_success:
-  - env
-  # - mvn install --quiet -B
-  # - "bash <(curl -s https://codecov.io/bash)"
+  script:
+    - mvn install --quiet -B
+    - "bash <(curl -s https://codecov.io/bash)"
+  "on":
+    condition: $TRAVIS_JDK_VERSION = openjdk11
