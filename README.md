@@ -3,6 +3,8 @@ Experimental Object Oriented Testing Framework for Java
 [![EO principles respected here](http://www.elegantobjects.org/badge.svg)](http://www.elegantobjects.org)
 [![DevOps By Rultor.com](http://www.rultor.com/b/g4s8/oot)](http://www.rultor.com/p/g4s8/oot)
 
+`oot-maven-plugin` in JCenter  [![Download](https://api.bintray.com/packages/g4s8/mvn/oot-maven-plugin/images/download.svg)](https://bintray.com/g4s8/mvn/oot-maven-plugin/_latestVersion)
+
 ```
 @todo #1:30min Configure CI build.
  CircleCI, Travis and Appveyor for PR and commit statuses.
