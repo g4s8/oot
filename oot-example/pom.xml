@@ -6,7 +6,7 @@
   <parent>
     <artifactId>parent</artifactId>
     <groupId>wtf.g4s8.oot</groupId>
-    <version>0.1.3</version>
+    <version>1.0-SNAPSHOT</version>
   </parent>
   <artifactId>oot-example</artifactId>
   <name>oot-example</name>
@@ -14,7 +14,7 @@
     <dependency>
       <groupId>wtf.g4s8.oot</groupId>
       <artifactId>oot</artifactId>
-      <version>0.1.3</version>
+      <version>1.0-SNAPSHOT</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -29,7 +29,7 @@
       <plugin>
         <groupId>wtf.g4s8.oot</groupId>
         <artifactId>oot-maven-plugin</artifactId>
-        <version>0.1.3</version>
+        <version>1.0-SNAPSHOT</version>
         <executions>
           <execution>
             <goals>
