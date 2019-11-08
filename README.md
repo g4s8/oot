@@ -23,12 +23,6 @@ Experimental Object Oriented Testing Framework for Java
 
 ## Usage
 
-```
-@todo #1:30min Publish artifact to maven central.
- Then update the readme with dependency references
- and install instructions. Automate publish with CI.
-```
-
 Disable `maven-surefire-plugin` by adding `skipTests` property to configuration,
 add `oot-maven-plugin` and `oot` library dependency to `pom.xml`:
 ```xml
