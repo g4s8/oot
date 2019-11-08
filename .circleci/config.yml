@@ -31,9 +31,8 @@ jobs:
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "pom.xml" }}
-      - run: mvn dependency:go-offline
+      - run: mvn install -Pqulice,publish --errors --quiet -B
       - save_cache:
           paths:
             - ~/.m2
           key: v1-dependencies-{{ checksum "pom.xml" }}
-      - run: mvn install -Pqulice,publish --errors --quiet -B
