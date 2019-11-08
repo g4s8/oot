@@ -22,9 +22,11 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 ---
 docker:
-  image: g4s8/rultor:alpine
+  image: g4s8/rultor-jdk11:alpine3.10
 assets:
   settings.xml: g4s8/.rultor#assets/g4s8-mvn/settings.xml
+env:
+  JAVA_HOME: /usr/lib/jvm/java-11-openjdk
 architect:
   - g4s8
 merge:
