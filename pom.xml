@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>wtf.g4s8.oot</groupId>
   <artifactId>parent</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>0.1.3</version>
   <name>OOT Maven parent</name>
   <packaging>pom</packaging>
   <!--
@@ -38,6 +38,13 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
+  <distributionManagement>
+    <repository>
+      <id>bintray-g4s8-maven</id>
+      <name>mvn</name>
+      <url>https://api.bintray.com/maven/g4s8/mvn/oot-parent/;publish=1</url>
+    </repository>
+  </distributionManagement>
   <build>
     <pluginManagement>
       <plugins>
