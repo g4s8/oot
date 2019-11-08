@@ -97,15 +97,6 @@ In this example:
  - `SimpleTest` - generic object to apply [Hamcrest matcher](http://hamcrest.org/JavaHamcrest/)
  to target object
 
-Create Junit test class, run any implementation of `TestRun` in the
-test method:
-```java
-@Test
-public void mainTest() {
-  new SimpleRun(
-    new SimpleTest<>("true is not false", Matchers.is(true), !false)
-  ).run();
-}
 
 To run multiple tests sequentially use:
 ```java
