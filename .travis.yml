@@ -26,7 +26,7 @@ cache:
   directories:
     - $HOME/.m2
 script:
-  - mvn clean install -Pqulice,publish --errors -B --quiet
+  - mvn clean install -Pqulice --errors -B --quiet
 env:
   global:
     - MAVEN_OPTS="-Xmx256m"
