@@ -26,7 +26,7 @@ cache:
   directories:
     - $HOME/.m2
 script:
-  - mvn clean install -Pqulice,publish --errors -B
+  - mvn clean install -Pqulice,publish --errors -B --quiet
 env:
   global:
     - MAVEN_OPTS="-Xmx256m"
@@ -35,5 +35,6 @@ jdk:
   - openjdk11
   - openjdk13
 after_success:
-  - mvn install --quiet -B
-  - "bash <(curl -s https://codecov.io/bash)"
+  - env
+  # - mvn install --quiet -B
+  # - "bash <(curl -s https://codecov.io/bash)"
