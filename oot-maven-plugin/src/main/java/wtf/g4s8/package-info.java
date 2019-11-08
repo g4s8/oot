@@ -22,37 +22,8 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  */
-package wtf.g4s8;
-
-import org.hamcrest.Description;
-import org.hamcrest.TypeSafeMatcher;
-
 /**
- * Sum matcher.
+ * Maven plugin for `oot` library.
  * @since 1.0
  */
-public final class SumIs extends TypeSafeMatcher<Sum> {
-
-    /**
-     * Expected sum.
-     */
-    private final int expected;
-
-    /**
-     * Ctor.
-     * @param expected Expected sum
-     */
-    public SumIs(final int expected) {
-        this.expected = expected;
-    }
-
-    @Override
-    public boolean matchesSafely(final Sum item) {
-        return this.expected == item.value();
-    }
-
-    @Override
-    public void describeTo(final Description description) {
-        description.appendValue(this.expected);
-    }
-}
+package wtf.g4s8;

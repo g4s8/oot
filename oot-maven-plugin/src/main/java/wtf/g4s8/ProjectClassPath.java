@@ -1,7 +1,32 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2019 g4s8
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files
+ * (the "Software"), to deal in the Software without restriction,
+ * including without limitation the rights * to use, copy, modify,
+ * merge, publish, distribute, sublicense, and/or sell copies of the Software,
+ * and to permit persons to whom the Software is furnished to do so,
+ * subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+ * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
+ */
 package wtf.g4s8;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashSet;
 import java.util.Set;
@@ -39,10 +64,11 @@ public final class ProjectClassPath implements ClassPath {
     @Override
     public Set<URL> urls() throws IOException {
         final Set<URL> out = new HashSet<>();
-        final URL build = new File(this.project.getBuild().getOutputDirectory()).toURI().toURL();
+        final URL build = ProjectClassPath.toUrl(this.project.getBuild().getOutputDirectory());
         out.add(build);
         this.log.debug(String.format("ProjectClassPath: added builDir URL: %s", build));
-        final URL tests = new File(this.project.getBuild().getTestOutputDirectory()).toURI().toURL();
+        final URL tests =
+            ProjectClassPath.toUrl(this.project.getBuild().getTestOutputDirectory());
         out.add(tests);
         this.log.debug(String.format("ProjectClassPath: added testDir URL: %s", tests));
         for (final Artifact dependency : this.project.getArtifacts()) {
@@ -51,5 +77,15 @@ public final class ProjectClassPath implements ClassPath {
             this.log.debug(String.format("ProjectClassPath: added dependency URL: %s", dep));
         }
         return out;
+    }
+
+    /**
+     * Convert string path to URL.
+     * @param path String path
+     * @return URL
+     * @throws MalformedURLException If path is invalid
+     */
+    private static URL toUrl(final String path) throws MalformedURLException {
+        return new File(path).toURI().toURL();
     }
 }

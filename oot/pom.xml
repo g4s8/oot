@@ -60,29 +60,6 @@
         <version>3.0.0-M3</version>
       </plugin>
     </plugins>
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <groupId>com.qulice</groupId>
-          <artifactId>qulice-maven-plugin</artifactId>
-          <version>0.18.19</version>
-          <configuration>
-            <license>file:${basedir}/../LICENSE</license>
-            <excludes combine.children="append">
-              <exclude>findbugs:.*</exclude>
-              <exclude>duplicatefinder:.*</exclude>
-            </excludes>
-          </configuration>
-          <executions>
-            <execution>
-              <goals>
-                <goal>check</goal>
-              </goals>
-            </execution>
-          </executions>
-        </plugin>
-      </plugins>
-    </pluginManagement>
   </build>
   <profiles>
     <profile>
@@ -121,17 +98,6 @@
             <configuration>
               <additionalparam>${javadoc.opts}</additionalparam>
             </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-    <profile>
-      <id>qulice</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>com.qulice</groupId>
-            <artifactId>qulice-maven-plugin</artifactId>
           </plugin>
         </plugins>
       </build>
