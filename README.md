@@ -26,6 +26,44 @@ oot-maven-plugin: ![Maven Central](https://img.shields.io/maven-central/v/wtf.g4
  3. Control test runs behavior in the code
  4. Write test-cases objects instead of classes with test functions
 
+## Prerequirements
+
+**Warning**: this project is in early development stage. API may change at any moment.
+Until first stable release `1.0.0` ther're no compatability guaranty.
+All alpha versions (< `1.0.0` version) are published to snapshot repository of
+Maven Central. To add these dependencies you have to explicitly enable Sonatype
+snapshot repositories and plugin repositories in you `pom.xml`:
+```xml
+<project>
+  <repositories>
+    <repository>
+      <id>sonatypeSnapshots</id>
+      <name>Sonatype Snapshots</name>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </repository>
+  </repositories>
+  <pluginRepositories>
+    <pluginRepository>
+      <id>sonatypeSnapshots</id>
+      <name>Sonatype Snapshots</name>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </pluginRepository>
+  </pluginRepositories>
+</project>
+```
+
 ## Usage
 
 Disable `maven-surefire-plugin` by adding `skipTests` property to configuration,
@@ -36,7 +74,6 @@ add `oot-maven-plugin` and `oot` library dependency to `pom.xml`:
     <dependency>
       <groupId>wtf.g4s8.oot</groupId>
       <artifactId>oot</artifactId>
-      <!-- insert correct version here -->
       <version>1.0-SNAPSHOT</version>
       <scope>test</scope>
     </dependency>
@@ -52,7 +89,6 @@ add `oot-maven-plugin` and `oot` library dependency to `pom.xml`:
       <plugin>
         <groupId>wtf.g4s8.oot</groupId>
         <artifactId>oot-maven-plugin</artifactId>
-        <!-- insert correct version here -->
         <version>1.0-SNAPSHOT</version>
         <executions>
           <execution>
