@@ -3,16 +3,14 @@ Experimental Object Oriented Testing Framework for Java
 [![EO principles respected here](http://www.elegantobjects.org/badge.svg)](http://www.elegantobjects.org)
 [![DevOps By Rultor.com](http://www.rultor.com/b/g4s8/oot)](http://www.rultor.com/p/g4s8/oot)
 
-oot: ![Maven Central](https://img.shields.io/maven-central/v/wtf.g4s8.oot/oot) [![Bintray](https://api.bintray.com/packages/g4s8/mvn/oot/images/download.svg)](https://bintray.com/g4s8/mvn/oot/_latestVersion)
+oot:
+[![Maven Central](https://img.shields.io/maven-central/v/wtf.g4s8.oot/oot)](https://maven-badges.herokuapp.com/maven-central/wtf.g4s8.oot/oot)
+[![Bintray](https://api.bintray.com/packages/g4s8/mvn/oot/images/download.svg)](https://bintray.com/g4s8/mvn/oot/_latestVersion)
 
-oot-maven-plugin: ![Maven Central](https://img.shields.io/maven-central/v/wtf.g4s8.oot/oot-maven-plugin) [![Bintray](https://api.bintray.com/packages/g4s8/mvn/oot-maven-plugin/images/download.svg)](https://bintray.com/g4s8/mvn/oot-maven-plugin/_latestVersion)
+oot-maven-plugin:
+[![Maven Central](https://img.shields.io/maven-central/v/wtf.g4s8.oot/oot-maven-plugin)](https://maven-badges.herokuapp.com/maven-central/wtf.g4s8.oot/oot-maven-plugin)
+[![Bintray](https://api.bintray.com/packages/g4s8/mvn/oot-maven-plugin/images/download.svg)](https://bintray.com/g4s8/mvn/oot-maven-plugin/_latestVersion)
 
-```
-@todo #1:30min Configure CI build.
- CircleCI, Travis and Appveyor for PR and commit statuses.
- Rultor for merging. CI builds should run tests, style checkers,
- pdd validators. Add coverage checks.
-```
 [![Build Status](https://img.shields.io/travis/g4s8/oot.svg?style=flat-square)](https://travis-ci.org/g4s8/oot)
 [![Build status](https://ci.appveyor.com/api/projects/status/3wvrniluu0qpmi7d?svg=true)](https://ci.appveyor.com/project/g4s8/oot)
 [![CircleCI](https://circleci.com/gh/g4s8/oot.svg?style=svg)](https://circleci.com/gh/g4s8/oot)

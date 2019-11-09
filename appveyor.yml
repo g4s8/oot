@@ -43,7 +43,7 @@ install:
   - cmd: mvn --version
   - cmd: java -version
 build_script:
-  - mvn clean package -Ppublish -B --quiet -DskipTests
+  - mvn clean package -B --quiet -DskipTests
 test_script:
   - mvn clean test -B -Pqulice --errors --quiet
 cache:
