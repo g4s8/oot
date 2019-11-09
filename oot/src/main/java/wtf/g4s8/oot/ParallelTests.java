@@ -26,24 +26,25 @@ package wtf.g4s8.oot;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 import net.jcip.annotations.ThreadSafe;
 
 /**
  * Parallel tests.
  * @since 1.0
  */
-public final class ParallelTests implements TestCase {
+@SuppressWarnings("PMD.JUnit4TestShouldUseTestAnnotation")
+public final class ParallelTests implements TestCase, TestGroup {
 
     /**
-     * Test runs.
+     * Test group.
      */
-    private final Iterable<TestCase> tests;
+    private final TestGroup group;
 
     /**
      * Executors.
@@ -62,23 +63,40 @@ public final class ParallelTests implements TestCase {
      * Ctor.
      * @param tests Test cases
      */
-    public ParallelTests(final Iterable<TestCase> tests) {
+    public ParallelTests(final Collection<TestCase> tests) {
         this(tests, Executors.newCachedThreadPool());
     }
 
     /**
-     * Primary ctor.
+     * Ctor.
+     * @param group Test group
+     */
+    public ParallelTests(final TestGroup group) {
+        this(group, Executors.newCachedThreadPool());
+    }
+
+    /**
+     * Ctor.
      * @param tests Test runs
      * @param exec Executors
      */
-    public ParallelTests(final Iterable<TestCase> tests, final ExecutorService exec) {
-        this.tests = tests;
+    public ParallelTests(final Collection<TestCase> tests, final ExecutorService exec) {
+        this(new TestGroup.Of(tests), exec);
+    }
+
+    /**
+     * Primary ctor.
+     * @param tests Test group
+     * @param exec Executor service
+     */
+    public ParallelTests(final TestGroup tests, final ExecutorService exec) {
+        this.group = tests;
         this.exec = exec;
     }
 
     @Override
     public String name() {
-        return StreamSupport.stream(this.tests.spliterator(), false)
+        return this.group.tests().stream()
             .map(TestCase::name)
             .collect(Collectors.joining(","));
     }
@@ -86,7 +104,7 @@ public final class ParallelTests implements TestCase {
     @Override
     public void run(final TestReport report) throws IOException {
         final SynchronizedReport wrap = new SynchronizedReport(report);
-        final List<Callable<Void>> tasks = StreamSupport.stream(this.tests.spliterator(), false)
+        final List<Callable<Void>> tasks = this.tests().stream()
             .map(test -> new TestRunnable(test, wrap))
             .collect(Collectors.toList());
         try {
@@ -94,6 +112,11 @@ public final class ParallelTests implements TestCase {
         } catch (final InterruptedException ignore) {
             Thread.currentThread().interrupt();
         }
+    }
+
+    @Override
+    public Collection<TestCase> tests() {
+        return this.group.tests();
     }
 
     /**

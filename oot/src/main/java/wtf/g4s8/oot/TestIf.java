@@ -31,6 +31,7 @@ import java.util.function.Supplier;
  * Conditional test.
  * @since 1.0
  */
+@SuppressWarnings("PMD.JUnit4TestShouldUseTestAnnotation")
 public final class TestIf implements TestCase {
 
     /**

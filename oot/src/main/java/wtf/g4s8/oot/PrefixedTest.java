@@ -25,62 +25,41 @@
 package wtf.g4s8.oot;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.stream.Collectors;
 
 /**
- * Chain of test runs.
+ * Test case decorator which adds prefix to test name.
  * @since 1.0
  */
 @SuppressWarnings("PMD.JUnit4TestShouldUseTestAnnotation")
-public final class SequentialTests implements TestCase, TestGroup {
+public final class PrefixedTest implements TestCase {
 
     /**
-     * Test group.
+     * Origin test case.
      */
-    private final TestGroup group;
+    private final TestCase origin;
 
     /**
-     * From test runs.
-     * @param tests Test runs
+     * Prefix.
      */
-    public SequentialTests(final TestCase... tests) {
-        this(Arrays.asList(tests));
-    }
+    private final String prefix;
 
     /**
      * Ctor.
-     * @param tests Test runs
+     * @param origin Origin test case
+     * @param prefix Prefix to add
      */
-    public SequentialTests(final Collection<TestCase> tests) {
-        this(new TestGroup.Of(tests));
-    }
-
-    /**
-     * Ctor.
-     * @param group Test group
-     */
-    public SequentialTests(final TestGroup group) {
-        this.group = group;
+    public PrefixedTest(final TestCase origin, final String prefix) {
+        this.origin = origin;
+        this.prefix = prefix;
     }
 
     @Override
     public String name() {
-        return this.group.tests().stream()
-            .map(TestCase::name)
-            .collect(Collectors.joining(","));
+        return String.join("", this.prefix, this.origin.name());
     }
 
     @Override
     public void run(final TestReport report) throws IOException {
-        for (final TestCase test : this.group.tests()) {
-            test.run(report);
-        }
-    }
-
-    @Override
-    public Collection<TestCase> tests() {
-        return null;
+        this.origin.run(report);
     }
 }

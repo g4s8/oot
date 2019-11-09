@@ -35,6 +35,7 @@ import org.hamcrest.StringDescription;
  * @param <T> Test case target type
  * @since 1.0
  */
+@SuppressWarnings("PMD.JUnit4TestShouldUseTestAnnotation")
 public final class SimpleTest<T> implements TestCase {
 
     /**
