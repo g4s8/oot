@@ -4,12 +4,9 @@ Experimental Object Oriented Testing Framework for Java
 [![DevOps By Rultor.com](http://www.rultor.com/b/g4s8/oot)](http://www.rultor.com/p/g4s8/oot)
 
 oot:
-[![Maven Central](https://img.shields.io/maven-central/v/wtf.g4s8.oot/oot)](https://maven-badges.herokuapp.com/maven-central/wtf.g4s8.oot/oot)
-[![Bintray](https://api.bintray.com/packages/g4s8/mvn/oot/images/download.svg)](https://bintray.com/g4s8/mvn/oot/_latestVersion)
-
+[![Maven Central](https://img.shields.io/maven-central/v/wtf.g4s8.oot/oot)](https://maven-badges.herokuapp.com/maven-central/wtf.g4s8.oot/oot),
 oot-maven-plugin:
 [![Maven Central](https://img.shields.io/maven-central/v/wtf.g4s8.oot/oot-maven-plugin)](https://maven-badges.herokuapp.com/maven-central/wtf.g4s8.oot/oot-maven-plugin)
-[![Bintray](https://api.bintray.com/packages/g4s8/mvn/oot-maven-plugin/images/download.svg)](https://bintray.com/g4s8/mvn/oot-maven-plugin/_latestVersion)
 
 [![Build Status](https://img.shields.io/travis/g4s8/oot.svg?style=flat-square)](https://travis-ci.org/g4s8/oot)
 [![Build status](https://ci.appveyor.com/api/projects/status/3wvrniluu0qpmi7d?svg=true)](https://ci.appveyor.com/project/g4s8/oot)
@@ -26,42 +23,6 @@ oot-maven-plugin:
 
 ## Prerequirements
 
-**Warning**: this project is in early development stage. API may change at any moment.
-Until first stable release `1.0.0` ther're no compatability guaranty.
-All alpha versions (< `1.0.0` version) are published to snapshot repository of
-Maven Central. To add these dependencies you have to explicitly enable Sonatype
-snapshot repositories and plugin repositories in you `pom.xml`:
-```xml
-<project>
-  <repositories>
-    <repository>
-      <id>sonatypeSnapshots</id>
-      <name>Sonatype Snapshots</name>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-    </repository>
-  </repositories>
-  <pluginRepositories>
-    <pluginRepository>
-      <id>sonatypeSnapshots</id>
-      <name>Sonatype Snapshots</name>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-    </pluginRepository>
-  </pluginRepositories>
-</project>
-```
-
 ## Usage
 
 Disable `maven-surefire-plugin` by adding `skipTests` property to configuration,
@@ -72,6 +33,7 @@ add `oot-maven-plugin` and `oot` library dependency to `pom.xml`:
     <dependency>
       <groupId>wtf.g4s8.oot</groupId>
       <artifactId>oot</artifactId>
+      <!-- use latest release version or add snapshots repo -->
       <version>1.0-SNAPSHOT</version>
       <scope>test</scope>
     </dependency>
@@ -87,6 +49,7 @@ add `oot-maven-plugin` and `oot` library dependency to `pom.xml`:
       <plugin>
         <groupId>wtf.g4s8.oot</groupId>
         <artifactId>oot-maven-plugin</artifactId>
+        <!-- use latest release version or add snapshots repo -->
         <version>1.0-SNAPSHOT</version>
         <executions>
           <execution>
