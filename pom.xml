@@ -6,6 +6,7 @@
   <artifactId>parent</artifactId>
   <version>1.0-SNAPSHOT</version>
   <name>OOT Maven parent</name>
+  <description>Object Oriented Testing Framework Maven parent</description>
   <packaging>pom</packaging>
   <!--
   @todo #3:30min Automate deployment with CD.
@@ -86,6 +87,14 @@
         <plugin>
           <artifactId>maven-invoker-plugin</artifactId>
           <version>3.1.0</version>
+        </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>versions-maven-plugin</artifactId>
+          <version>2.1</version>
+          <configuration>
+            <generateBackupPoms>false</generateBackupPoms>
+          </configuration>
         </plugin>
         <plugin>
           <groupId>com.qulice</groupId>
@@ -174,8 +183,8 @@
             <configuration>
               <serverId>ossrh</serverId>
               <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-              <autoReleaseAfterClose>true</autoReleaseAfterClose>
               <skipStagging>true</skipStagging>
+              <autoReleaseAfterClose>true</autoReleaseAfterClose>
             </configuration>
           </plugin>
           <plugin>
@@ -235,9 +244,6 @@
                 </goals>
               </execution>
             </executions>
-            <configuration>
-              <keyname>F294089E85790B3A41BDB387344360ED8657CFBE</keyname>
-            </configuration>
           </plugin>
         </plugins>
       </build>

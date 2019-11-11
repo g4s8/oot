@@ -14,13 +14,6 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.version>3.3.9</maven.version>
   </properties>
-  <distributionManagement>
-    <repository>
-      <id>bintray-g4s8-maven</id>
-      <name>mvn</name>
-      <url>https://api.bintray.com/maven/g4s8/mvn/oot-maven-plugin/;publish=1</url>
-    </repository>
-  </distributionManagement>
   <dependencies>
     <dependency>
       <groupId>org.apache.maven</groupId>
