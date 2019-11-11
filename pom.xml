@@ -8,11 +8,6 @@
   <name>OOT Maven parent</name>
   <description>Object Oriented Testing Framework Maven parent</description>
   <packaging>pom</packaging>
-  <!--
-  @todo #3:30min Automate deployment with CD.
-   Use `publish` profile to generate sources and javadocs jars.
-   Use rultor release to deploy to bintray on release.
-  -->
   <modules>
     <module>oot</module>
     <module>oot-maven-plugin</module>
