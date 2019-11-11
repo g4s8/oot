@@ -28,7 +28,9 @@ decrypt:
   sonatype-pub.gpg: "repo/.rultor/sonatype-pub.gpg.asc"
   sonatype-sec.gpg: "repo/.rultor/sonatype-sec.gpg.asc"
 install:
-  - "sudo apk --update add gnupg"
+  - sudo apk --update add gnupg
+  - gpg --import /home/r/sonatype-pub.gpg
+  - gpg --allow-secret-key-import --no-tty --batch --import /home/r/sonatype-sec.gpg
 env:
   JAVA_HOME: /usr/lib/jvm/java-11-openjdk
 architect:
