@@ -24,7 +24,7 @@
 docker:
   image: g4s8/rultor-jdk11:alpine3.10
 decrypt:
-  settings.xml: "repo/.rultor/settings.xml.asc"
+  settings.xml: "repo/.rultor/setting.xml.asc"
   .rultor/sonatype-pub.gpg: "repo/.rultor/sonatype-pub.gpg"
   .rultor/sonatype-sec.gpg: "repo/.rultor/sonatype-sec.gpg"
 env:
