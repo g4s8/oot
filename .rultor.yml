@@ -27,6 +27,8 @@ decrypt:
   settings.xml: "repo/.rultor/setting.xml.asc"
   sonatype-pub.gpg: "repo/.rultor/sonatype-pub.gpg.asc"
   sonatype-sec.gpg: "repo/.rultor/sonatype-sec.gpg.asc"
+install:
+  - "apk --update add gnupg"
 env:
   JAVA_HOME: /usr/lib/jvm/java-11-openjdk
 architect:
