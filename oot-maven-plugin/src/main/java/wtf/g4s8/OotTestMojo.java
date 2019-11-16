@@ -108,6 +108,9 @@ public final class OotTestMojo extends AbstractMojo {
             if (name.equals(AssertionError.class.getCanonicalName())) {
                 this.getLog().error("Test failed", err.getTargetException());
                 throw new MojoFailureException("Tests failed", err);
+            } else {
+                this.getLog().error("Test error", err.getTargetException());
+                throw new MojoExecutionException("Tests error", err);
             }
         } catch (final IOException err) {
             throw new MojoExecutionException("Failed to close classloader", err);

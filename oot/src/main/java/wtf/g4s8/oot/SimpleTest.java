@@ -25,7 +25,6 @@
 package wtf.g4s8.oot;
 
 import java.io.IOException;
-import java.util.function.Supplier;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.StringDescription;
@@ -41,7 +40,7 @@ public final class SimpleTest<T> implements TestCase {
     /**
      * Target to test.
      */
-    private final Supplier<T> target;
+    private final Target<T> target;
 
     /**
      * Matcher.
@@ -69,7 +68,7 @@ public final class SimpleTest<T> implements TestCase {
      * @param target Target
      * @param matcher Matcher
      */
-    public SimpleTest(final String message, final Supplier<T> target, final Matcher<T> matcher) {
+    public SimpleTest(final String message, final Target<T> target, final Matcher<T> matcher) {
         this.target = target;
         this.matcher = matcher;
         this.message = message;
@@ -81,9 +80,16 @@ public final class SimpleTest<T> implements TestCase {
     }
 
     @Override
-    @SuppressWarnings("PMD.SystemPrintln")
+    @SuppressWarnings("PMD.AvoidCatchingThrowable")
     public void run(final TestReport report) throws IOException {
-        final T actual = this.target.get();
+        final T actual;
+        try {
+            actual = this.target.value();
+            // @checkstyle IllegalCatchCheck (1 line)
+        } catch (final Throwable err) {
+            report.failure(this, err.toString());
+            return;
+        }
         if (this.matcher.matches(actual)) {
             report.success(this);
         } else {
@@ -98,11 +104,27 @@ public final class SimpleTest<T> implements TestCase {
     }
 
     /**
+     * Lazy target.
+     * @param <T> Type of target.
+     * @since 1.0
+     */
+    @FunctionalInterface
+    public interface Target<T> {
+
+        /**
+         * Target value.
+         * @return Target
+         * @throws Exception On failure
+         */
+        T value() throws Exception;
+    }
+
+    /**
      * Constant target supplier.
      * @param <T> Target type
      * @since 1.0
      */
-    private static final class ConstTarget<T> implements Supplier<T> {
+    private static final class ConstTarget<T> implements Target<T> {
 
         /**
          * Target.
@@ -118,7 +140,7 @@ public final class SimpleTest<T> implements TestCase {
         }
 
         @Override
-        public T get() {
+        public T value() {
             return this.target;
         }
     }
