@@ -13,7 +13,7 @@
   <name>${project.groupId}:${project.artifactId}</name>
   <description>Object Oriented Testing Framework for Java</description>
   <properties>
-    <junit-platform.version>5.7.2</junit-platform.version>
+    <junit-platform.version>5.8.0</junit-platform.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <jdk.version>13</jdk.version>
   </properties>
