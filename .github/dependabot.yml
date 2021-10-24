@@ -9,7 +9,7 @@ updates:
       - "dependencies"
       - "bot"
     commit-message:
-      prefix: "[deps]"
+      prefix: "deps"
     assignees:
       - "g4s8"
     reviewers:
